@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Card Generator</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffd700;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .container {
+    max-width: 90%;
+    margin: 20px;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  h1, h2 {
+    color: #ff4500;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-out;
+  }
+  form {
+    margin-top: 20px;
+    animation: slideIn 1s ease-out;
+  }
+  input[type="text"], input[type="file"], input[type="submit"] {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    width: 80%;
+    max-width: 300px;
+  }
+  input[type="submit"] {
+    background-color: #ff4500;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  input[type="submit"]:hover {
+    background-color: #cc3700;
+  }
+  img {
+    display: block;
+    margin: 40px auto;
+    max-width: 100%;
+    border-radius: 20px;
+  }
+  #birthdayCard {
+    display: none;
+    animation: slideIn 1s ease-out;
+  }
+  p {
+    color: #555;
+    font-size: 1.2em;
+    line-height: 1.5;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Responsive Styles */
+  @media only screen and (max-width: 768px) {
+    .container {
+      max-width: 100%;
+    }
+    input[type="text"], input[type="file"], input[type="submit"] {
+      width: 100%;
+      max-width: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Happy Birthday!</h1>
+  <h2>Fill This For a Surprise!</h2>
+  <form id="birthdayForm">
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto()">
+    <input type="submit" value="Generate Card">
+  </form>
+  <div id="birthdayCard">
+    <h2>Happy Birthday <span id="userName"></span>!</h2>
+    <img src="" id="photoPreview" alt="Uploaded photo">
+    <img src="cake.png" alt="Birthday Cake">
+    <p>Best wishes on your special day!</p>
+  </div>
+</div>
+
+<script>
+function previewPhoto() {
+  var fileInput = document.getElementById('photoInput');
+  var photoPreview = document.getElementById('photoPreview');
+  var file = fileInput.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    photoPreview.src = e.target.result;
+  }
+  reader.readAsDataURL(file);
+}
+
+document.getElementById('birthdayForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  var name = document.getElementById('nameInput').value;
+  var photo = document.getElementById('photoPreview').src;
+  if (name.trim() === '') {
+    alert('Please enter your name.');
+    return;
+  }
+  if (photo === '' || photo === 'data:,') {
+    alert('Please upload a photo.');
+    return;
+  }
+  document.getElementById('userName').textContent = name;
+  document.getElementById('birthdayCard').style.display = 'block';
+  document.getElementById('birthdayForm').style.display = 'none';
+  document.querySelector('h1').style.display = 'none';
+  document.querySelector('h2').style.display = 'none';
+});
+</script>
+
+</body>
+</html>
